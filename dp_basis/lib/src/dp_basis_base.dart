@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 ///
@@ -27,3 +28,13 @@ String get currentPath2 => Platform.script.path;
 /// dart_cli.dart
 /// ```
 String get currentFileName => Platform.script.path.split('/').last;
+
+/// 包裹一个任务，并计算耗时
+Future wrapMeasureTime(FutureOr Function() task, [String? taskName]) async {
+  final stopwatch = Stopwatch()..start();
+  await task();
+  stopwatch.stop();
+  print(
+    '${taskName == null ? "" : "[$taskName]"}耗时: ${stopwatch.elapsedMilliseconds} 毫秒',
+  );
+}
